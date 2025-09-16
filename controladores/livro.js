@@ -35,7 +35,15 @@ function getLivro(req, res) {
 function postLivro(req, res) {
   try {
     const novoLivro = req.body;
-    if (req.body.nome) {
+    // Validação mais robusta
+    if (
+      novoLivro &&
+      typeof novoLivro.nome === "string" &&
+      novoLivro.nome.trim() !== ""
+    ) {
+      // O ideal seria o serviço `insereLivro` gerar o ID.
+      // Por simplicidade, vamos assumir que o cliente ainda envia um ID,
+      // mas a validação do nome foi melhorada.
       insereLivro(novoLivro);
       res.status(201).send("Book added to the alura!");
     } else {
